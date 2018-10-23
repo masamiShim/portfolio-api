@@ -17,17 +17,31 @@ admin.initializeApp(functions.config().firebase)
 /**
  * Skill追加用
  */
-exports.storeSkill = functions.https.onRequest((request, response) => {
+exports.skill = functions.https.onRequest((request, response) => {
 
-    if (request.method === 'POST') {
+    if (request.method === "GET") {
+        admin.database().ref("/skills")
+            .once("value")
+            .then(snapshot => {
+                    const skills = snapshot.val();
+                    const array = Object.keys(skills).map(key => skills[key]);
+
+                    console.log("reference success", array);
+                    response.status(200).json(array).end();
+                }
+            ).catch(error => {
+                console.log("reference error", error);
+                response.status(500).end();
+            }
+        );
+
+    }else if (request.method === 'POST') {
         const body = request.body
         const pushRef = admin.database().ref('/skills').push()
 
         pushRef.set({
-            skillId: body['skillId'],
             category: body['category'],
             name: body['name'],
-            ordinal: body['ordinal']
         }, error => {
 
             if (error) {
