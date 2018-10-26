@@ -1,50 +1,39 @@
-enum Category {
-    Skill,
+export enum Category {
+    Language,
     Framework,
     Tool
 }
-export class Skill {
-    readonly id: number;
-    readonly category: Category = Category.Skill
-    readonly name: string;
 
-    constructor(id:number, name:string){
-        this.id = id;
-        this.name = name;
-    }
+export interface ISkill {
+    readonly category: Category
+    readonly name: string
+}
 
-    getName() {
-        return this.name
+export class Language implements ISkill {
+
+    readonly category: Category = Category.Language
+    readonly name: string
+
+    constructor (name: string) {
+        this.name = name
     }
 }
 
-export class Tool {
-    readonly id: number;
-    readonly category: Category = Category.Tool
-    readonly name: string;
-
-    constructor(id:number, name:string){
-        this.id = id;
-        this.name = name;
-    }
-
-    getName() {
-        return this.name
-    }
-}
-
-export class Framework {
-    readonly id: number;
+export class Framework implements ISkill {
     readonly category: Category = Category.Framework
-    readonly name: string;
+    readonly name: string
 
-    constructor(id:number, name:string){
-        this.id = id;
-        this.name = name;
+    constructor (name: string) {
+        this.name = name
     }
+}
 
-    getName() {
-        return this.name
+export class Tool implements ISkill {
+    readonly category: Category = Category.Tool
+    readonly name: string
+
+    constructor (name: string) {
+        this.name = name
     }
 }
 
